@@ -1,0 +1,131 @@
+#from auth import login, password
+import keyboard
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+import time, random
+import pyautogui as pag
+
+
+text_code = """
+
+
+
+"""
+
+browser = None
+
+print(text_code)
+
+
+def login_firefox_chrome(_browser, login, password):
+    global browser
+    if _browser == "Chrome":
+        browser = webdriver.Chrome()
+    else:
+        browser = webdriver.Firefox()
+    browser.implicitly_wait(5)
+    browser.get('https://github.com/login')
+    time.sleep(random.randrange(1, 2))
+
+    _login = browser.find_element(By.NAME, "login")
+    _login.clear()
+    _login.send_keys(login)
+
+    time.sleep(random.randrange(1, 2))
+
+    _password = browser.find_element(By.NAME, "password")
+    _password.clear()
+    _password.send_keys(password)
+
+    time.sleep(random.randrange(1, 2))
+
+    _password.send_keys(Keys.ENTER)
+
+    # _login_button = browser.find_element_by_css_selector('button[type="submit"]')
+    # _login_button.click()
+
+
+def close_browser():
+    global browser
+    browser.close()
+    browser.quit()
+
+
+def search_by_hashtag(hashtag):
+    global browser
+    browser.get(f"https://www.instagram.com/explore/tags/{hashtag}/")
+
+    for i in range(1,4):
+        browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(random.randrange(2, 5))
+
+    hrefs = browser.find_elements_by_tag_name('a')
+    urls = [item.get_attribute('href') for item in hrefs if "/p/" in item.get_attribute('href')]
+    print(urls)
+
+    for url in urls:
+        browser.get(url)
+        time.sleep(random.randrange(2, 5))
+        like = browser.find_element(By.XPATH, "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[1]/span[1]/button")
+        like.click()
+        time.sleep(random.randrange(85, 105))
+
+    # for item in hrefs:
+    #     href = item.get_attribute('href')
+    #     if "/p/" in href:
+    #         urls.append(href)
+    #         print(href)
+
+def likes_to_user(link_to_user):
+    global browser
+ #   global text-code
+    browser.get(link_to_user)
+    # time.sleep(0.2)
+    pag.move(400, 200)
+    pag.click()
+
+    keyboard.send("ctrl+a")
+    keyboard.send("backspace")
+    pag.typewrite(text_code)
+
+    time.sleep(random.randrange(1, 2))
+    
+    
+       
+    
+     
+    like = browser.find_element(By.XPATH, "/html/body/div[4]/div/main/div[2]/div/div/form[2]/div/div[5]/button")
+      
+    like.click()
+    time.sleep(random.randrange(5, 10))
+    
+    
+  #  num_posts = int(browser.#find_element(By.XPATH, "/html/body/#div[1]/section/main/div/header/section/#ul/li[1]/span/span").text.replace(" ", ""))
+ #   num_full_pages = num_posts // 12
+#    print(num_posts, num_full_pages)
+
+    #num_full_pages = 1
+
+ #   for i in range(0, num_full_pages):
+       # browser.execute_script("window.#scrollTo(0, document.body.scrollHeight);")
+#        time.sleep(random.randrange(3, 5))
+
+  #  hrefs = browser.#find_elements_by_tag_name('a')
+#    urls = [item.get_attribute('href') for #item in hrefs if "/p/" in item.#get_attribute('href')]
+  #  print(urls)
+
+#    for url in urls:
+       # browser.get(url)
+#        time.sleep(random.randrange(2, 5))
+#        like = browser.find_element(By.#XPATH, "/html/body/div[1]/section/#main/div/div[1]/article/div[3]/section[1]/#span[1]/button")
+#######        like.click()
+ #--------       time.sleep(random.randrange(5, 10))
+
+login_firefox_chrome("Chrome", "vldprod228@gmail.com", "vlad2006minyon12345mandarin")
+time.sleep(5)
+#search_by_hashtag("lamborghini")
+#likes_to_user("https://www.instagram.com/romanova_elizaveta1/")
+likes_to_user("https://github.com/VLDprod/karkade/edit/main/index.html")
+time.sleep(200)
+close_browser()
